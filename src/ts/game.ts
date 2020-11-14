@@ -2,6 +2,8 @@ import * as PIXI from 'pixi.js';
 import GraphicAssets from './graphic-assets';
 import AudioAssets from './audio-assets';
 import { Howl, Howler } from 'howler';
+import Lines from './lines';
+import Victor = require('victor');
 
 export default class Game {
     private canvas: HTMLCanvasElement;
@@ -12,7 +14,10 @@ export default class Game {
     private lastRestart: number = 0;
     private paused: boolean = false;
     private muted: boolean = false;
-    public frameCountText = new PIXI.Text('0', { fontSize: 72 });
+    private lines: Lines;
+    public mouse: Victor;
+    public lastMouse: Victor;
+    public mouseSpeed = 0;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -21,36 +26,40 @@ export default class Game {
             width: window.innerWidth,
             height: window.innerHeight,
             transparent: true,
+            antialias: true,
         });
         this.graphics = new GraphicAssets(this);
         this.audio = new AudioAssets(this);
+        this.mouse = new Victor(
+            this.app.renderer.width / 2,
+            this.app.renderer.height / 3
+        );
+        this.lastMouse = this.mouse.clone();
+        this.lines = new Lines(this);
         this.init();
     }
 
     private init() {
         this.app.ticker.add((delta) => this.update(delta));
         this.graphics.placeAssets();
-
-        // place framecount in center
-        this.graphics.baseLayer.addChild(this.frameCountText);
+        document.addEventListener('mousemove', this.getMousePos.bind(this));
     }
 
     private update(delta: number) {
         if (!this.paused) {
             this.frameCount++;
-
-            // place frame count text
-            const textPos = {
-                x: this.app.renderer.width / 2 - this.frameCountText.width / 2,
-                y:
-                    this.app.renderer.height / 2 -
-                    this.frameCountText.height / 2,
-            };
-            this.frameCountText.text = this.frameCount.toString();
-            this.frameCountText.position.set(textPos.x, textPos.y);
+            this.lines.update(delta);
         }
     }
     public reinit() {
         this.lastRestart = this.frameCount;
+    }
+    getMousePos(e: MouseEvent) {
+        this.lastMouse = this.mouse.clone();
+        this.mouse.x = e.x;
+        this.mouse.y = e.y;
+        const deltaX = this.lastMouse.x - this.mouse.x;
+        const deltaY = this.lastMouse.y - this.mouse.y;
+        this.mouseSpeed = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
     }
 }
