@@ -34,9 +34,9 @@ export default class Lines {
     }
 
     public update(delta: number) {
-        this.drawLine(this.lineEl);
+        this.drawLine(this.lineEl, delta);
     }
-    private drawLine(el: PIXI.Graphics) {
+    private drawLine(el: PIXI.Graphics, delta: number) {
         // clear and set line style
         el.clear();
         el.lineStyle(10, 0x282228, 1);

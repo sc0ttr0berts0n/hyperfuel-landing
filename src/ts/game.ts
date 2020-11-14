@@ -23,10 +23,9 @@ export default class Game {
         this.canvas = canvas;
         this.app = new PIXI.Application({
             view: canvas,
-            width: window.innerWidth,
-            height: window.innerHeight,
             transparent: true,
             antialias: true,
+            resizeTo: canvas,
         });
         this.graphics = new GraphicAssets(this);
         this.audio = new AudioAssets(this);
