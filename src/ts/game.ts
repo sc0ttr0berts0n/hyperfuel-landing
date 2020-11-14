@@ -12,7 +12,7 @@ export default class Game {
     private lastRestart: number = 0;
     private paused: boolean = false;
     private muted: boolean = false;
-    public frameCountText = new PIXI.Text('0');
+    public frameCountText = new PIXI.Text('0', { fontSize: 72 });
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -28,14 +28,14 @@ export default class Game {
     }
 
     private init() {
-        this.app.ticker.add(() => this.update());
+        this.app.ticker.add((delta) => this.update(delta));
         this.graphics.placeAssets();
 
         // place framecount in center
         this.graphics.baseLayer.addChild(this.frameCountText);
     }
 
-    private update() {
+    private update(delta: number) {
         if (!this.paused) {
             this.frameCount++;
 
