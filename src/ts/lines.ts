@@ -45,7 +45,7 @@ export default class Lines {
         const width = this.game.app.renderer.width;
         const height = this.game.app.renderer.height;
         let x = 0;
-        let y = -height / 2;
+        let y = -height / 2 + (this.game.frameCount % this.pointGap.y);
         const mouse = this.game.mouse;
         const maxAmplitude = height / 6;
         const mouseYFloat = ((mouse.y - height / 2) / height) * 2;
