@@ -42,6 +42,7 @@ export default class Game {
         this.app.ticker.add((delta) => this.update(delta));
         this.graphics.placeAssets();
         document.addEventListener('mousemove', this.getMousePos.bind(this));
+        this.canvas.classList.add('loaded');
     }
 
     private update(delta: number) {
