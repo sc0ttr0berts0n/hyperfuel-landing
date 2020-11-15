@@ -39,7 +39,11 @@ export default class Lines {
     private drawLine(el: PIXI.Graphics, delta: number) {
         // clear and set line style
         el.clear();
-        el.lineStyle(10, 0x282228, 1);
+        const lineWidth = Math.min(
+            this.game.scrollDepth / 25 + 10,
+            this.pointGap.y
+        );
+        el.lineStyle(lineWidth, 0x282228, 1);
 
         // rendering the sine waves height for each point
         const width = this.game.app.renderer.width;

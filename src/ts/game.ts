@@ -6,7 +6,7 @@ import Lines from './lines';
 import Victor = require('victor');
 
 export default class Game {
-    private canvas: HTMLCanvasElement;
+    public canvas: HTMLCanvasElement;
     public app: PIXI.Application;
     public graphics: GraphicAssets;
     public audio: AudioAssets;
@@ -18,6 +18,7 @@ export default class Game {
     public mouse: Victor;
     public lastMouse: Victor;
     public mouseSpeed = 0;
+    public scrollDepth = 0;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -42,6 +43,7 @@ export default class Game {
         this.app.ticker.add((delta) => this.update(delta));
         this.graphics.placeAssets();
         document.addEventListener('mousemove', this.getMousePos.bind(this));
+        document.addEventListener('scroll', this.onScroll.bind(this));
         this.canvas.classList.add('loaded');
     }
 
@@ -61,5 +63,8 @@ export default class Game {
         const deltaX = this.lastMouse.x - this.mouse.x;
         const deltaY = this.lastMouse.y - this.mouse.y;
         this.mouseSpeed = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+    }
+    onScroll() {
+        this.scrollDepth = window.scrollY;
     }
 }
