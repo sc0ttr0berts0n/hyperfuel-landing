@@ -43,9 +43,9 @@ export default class Lines {
             this.game.scrollDepth / 25 + 10,
             this.pointGap.y
         );
-        // const lineColor = this.game.mouseClicked ? 0xffffff : 0x282828;
-        const lineColor = 0x282828;
-        const lineOpacity = this.game.mouseClicked ? 1 : 1;
+        const lineColor = this.game.mouseClicked ? 0xffffff : 0x282828;
+        // const lineColor = 0x282828;
+        const lineOpacity = this.game.mouseClicked ? 0.9 : 1;
         el.lineStyle(lineWidth, lineColor, lineOpacity);
 
         // rendering the sine waves height for each point
@@ -74,7 +74,13 @@ export default class Lines {
                         (Math.sin((theta * this.pointGap.y) / 4) *
                             this.pointGap.y) /
                         4;
-                    el.lineTo(x + wiggles, y + currYOff + wiggles);
+                    el.lineTo(
+                        x,
+                        y +
+                            currYOff +
+                            wiggles +
+                            (Math.random() * this.pointGap.y) / 4
+                    );
                 }
                 x = x + this.pointGap.x;
             }
