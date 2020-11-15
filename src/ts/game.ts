@@ -18,6 +18,7 @@ export default class Game {
     public mouse: Victor;
     public lastMouse: Victor;
     public mouseSpeed = 0;
+    public mouseClicked = false;
     public scrollDepth = 0;
 
     constructor(canvas: HTMLCanvasElement) {
@@ -44,6 +45,10 @@ export default class Game {
         this.graphics.placeAssets();
         document.addEventListener('mousemove', this.getMousePos.bind(this));
         document.addEventListener('scroll', this.onScroll.bind(this));
+        document.addEventListener('mousedown', this.onClick.bind(this));
+        document.addEventListener('mouseup', this.onClick.bind(this));
+        document.addEventListener('touchstart', this.onClick.bind(this));
+        document.addEventListener('touchend', this.onClick.bind(this));
         this.canvas.classList.add('loaded');
     }
 
@@ -63,6 +68,13 @@ export default class Game {
         const deltaX = this.lastMouse.x - this.mouse.x;
         const deltaY = this.lastMouse.y - this.mouse.y;
         this.mouseSpeed = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+    }
+    onClick(e: Event) {
+        if (e.type === 'mousedown' || e.type === 'touchstart') {
+            this.mouseClicked = true;
+        } else if (e.type === 'mouseup' || e.type === 'touchend') {
+            this.mouseClicked = false;
+        }
     }
     onScroll() {
         this.scrollDepth = window.scrollY;

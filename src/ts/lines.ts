@@ -7,7 +7,7 @@ export default class Lines {
     private line: Victor[];
     private container = new PIXI.Container();
     private lineEl = new PIXI.Graphics();
-    private pointGap = new Victor(20, 50);
+    private pointGap = new Victor(10, 50);
 
     constructor(game: Game) {
         this.game = game;
@@ -43,7 +43,10 @@ export default class Lines {
             this.game.scrollDepth / 25 + 10,
             this.pointGap.y
         );
-        el.lineStyle(lineWidth, 0x282228, 1);
+        // const lineColor = this.game.mouseClicked ? 0xffffff : 0x282828;
+        const lineColor = 0x282828;
+        const lineOpacity = this.game.mouseClicked ? 1 : 1;
+        el.lineStyle(lineWidth, lineColor, lineOpacity);
 
         // rendering the sine waves height for each point
         const width = this.game.app.renderer.width;
@@ -54,16 +57,25 @@ export default class Lines {
         const maxAmplitude = height / 6;
         const mouseYFloat = ((mouse.y - height / 2) / height) * 2;
         const amplitude = mouseYFloat * maxAmplitude;
-        const t = this.game.frameCount / 300;
+        const t = this.game.frameCount / 150;
 
         while (y <= height * 1.5) {
             while (x <= width + this.pointGap.y * 2) {
-                const maxTheta = x * 0.005 + t;
-                const currYOff = Math.sin(maxTheta + t) * amplitude;
+                const theta = x * 0.005 + t;
+                const currYOff = Math.sin(theta) * amplitude;
                 if (x === 0) {
                     el.moveTo(x, y + currYOff);
                 }
-                el.lineTo(x, y + currYOff);
+                if (!this.game.mouseClicked) {
+                    el.lineTo(x, y + currYOff);
+                } else {
+                    // const rand = (Math.random() * this.pointGap.y) / 2;
+                    const wiggles =
+                        (Math.sin((theta * this.pointGap.y) / 4) *
+                            this.pointGap.y) /
+                        4;
+                    el.lineTo(x + wiggles, y + currYOff + wiggles);
+                }
                 x = x + this.pointGap.x;
             }
             x = 0;
