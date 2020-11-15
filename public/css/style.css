@@ -51,6 +51,9 @@ canvas.loaded {
     background-position: 55% center;
     background-repeat: no-repeat;
 }
+.logo-wrapper:active {
+    mix-blend-mode: overlay;
+}
 
 .portfolio-piece {
     position: relative;
