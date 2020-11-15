@@ -18,11 +18,7 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            outputPath: path.resolve(
-                                __dirname,
-                                'public',
-                                'css'
-                            ),
+                            outputPath: 'css',
                             name: 'style.css',
                         },
                     },
