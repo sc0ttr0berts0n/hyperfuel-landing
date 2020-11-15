@@ -49,7 +49,7 @@ export default class Game {
         document.addEventListener('mouseup', this.onClick.bind(this));
         document.addEventListener('touchstart', this.onClick.bind(this));
         document.addEventListener('touchend', this.onClick.bind(this));
-        this.canvas.classList.add('loaded');
+        this.canvas.dataset.loaded = 'true';
     }
 
     private update(delta: number) {

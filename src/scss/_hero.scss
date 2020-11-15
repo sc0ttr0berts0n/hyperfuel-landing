@@ -1,0 +1,34 @@
+.hero {
+    &--wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+    &--canvas {
+        display: block;
+        width: 100%;
+        height: 100vw;
+        background-color: #282228;
+        opacity: 0;
+        &[data-loaded] {
+            opacity: 1;
+            transition: 3000ms;
+            background-image: linear-gradient(#f05323, #f8ee55);
+        }
+    }
+    &--logo {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100vw;
+        background-image: url('../assets/logo-hyperfuel.svg');
+        background-size: 40vmin auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        &:active {
+            mix-blend-mode: overlay;
+        }
+    }
+}
