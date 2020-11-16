@@ -74,13 +74,7 @@ export default class Lines {
                         (Math.sin((theta * this.pointGap.y) / 4) *
                             this.pointGap.y) /
                         4;
-                    el.lineTo(
-                        x,
-                        y +
-                            currYOff +
-                            wiggles +
-                            (Math.random() * this.pointGap.y) / 4
-                    );
+                    el.lineTo(x, y + currYOff + wiggles);
                 }
                 x = x + this.pointGap.x;
             }

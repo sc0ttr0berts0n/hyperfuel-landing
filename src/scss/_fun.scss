@@ -1,0 +1,13 @@
+.fun {
+    &--container {
+        background-color: #000000;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        padding: 4rem;
+    }
+    &--wrapper {
+        font-size: 3rem;
+        color: #ffffff;
+    }
+}
