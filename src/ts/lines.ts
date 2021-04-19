@@ -7,7 +7,8 @@ export default class Lines {
     private line: Victor[];
     private container = new PIXI.Container();
     private lineEl = new PIXI.Graphics();
-    private pointGap = new Victor(10, 50);
+    private purpleEl = new PIXI.Graphics();
+    private pointGap = new Victor(10, 35);
 
     constructor(game: Game) {
         this.game = game;
@@ -19,6 +20,7 @@ export default class Lines {
         this.initLinePoints();
         this.lineEl.x = -this.pointGap.y / 2;
         this.game.graphics.baseLayer.addChild(this.lineEl);
+        this.game.graphics.baseLayer.addChild(this.purpleEl);
     }
 
     private initLinePoints() {
@@ -40,29 +42,37 @@ export default class Lines {
         // clear and set line style
         el.clear();
         const lineWidth = Math.min(
-            this.game.scrollDepth / 25 + 10,
+            this.game.scrollDepth / 25 + 8,
             this.pointGap.y
         );
         const lineColor = this.game.mouseClicked ? 0xffffff : 0xffffff;
-        const lineOpacity = 1;
-        el.lineStyle(lineWidth, lineColor, lineOpacity);
+        el.lineStyle(lineWidth, lineColor, 1);
 
         // rendering the sine waves height for each point
         const width = this.game.app.renderer.width;
         const height = this.game.app.renderer.height;
         let x = 0;
-        let y = -height / 2 + (this.game.frameCount % this.pointGap.y);
+        let y = height / 2;
         const mouse = this.game.mouse;
-        const maxAmplitude = height / 6;
+        const maxAmplitude = this.pointGap.y * 2;
         const mouseYFloat = ((mouse.y - height / 2) / height) * 2;
         const amplitude = mouseYFloat * maxAmplitude;
-        const t = this.game.frameCount / 150;
+        const t = this.game.frameCount / 50;
+
+        let firstLine = true;
 
         while (y <= height * 1.5) {
+            if (firstLine) {
+                el.beginFill(0x4f4b5a);
+                el.moveTo(width + this.pointGap.y, -lineWidth);
+                el.lineTo(width, -lineWidth);
+                el.lineTo(-this.pointGap.x, -lineWidth);
+            } else {
+            }
             while (x <= width + this.pointGap.y * 2) {
                 const theta = x * 0.005 + t;
                 const currYOff = Math.sin(theta) * amplitude;
-                if (x === 0) {
+                if (x === 0 && !firstLine) {
                     el.moveTo(x, y + currYOff);
                 }
                 if (!this.game.mouseClicked) {
@@ -83,6 +93,10 @@ export default class Lines {
                 }
                 x = x + this.pointGap.x;
             }
+            if (firstLine) {
+                el.endFill();
+            }
+            firstLine = false;
             x = 0;
             y = y + this.pointGap.y;
         }

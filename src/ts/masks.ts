@@ -33,7 +33,6 @@ export default class Masks {
         this.game.graphics.maskLayer.addChild(this.lowerRightMask);
         this.game.graphics.maskLayer.addChild(this.upperRightMask);
         this.game.graphics.maskLayer.addChild(this.lowerLeftMask);
-        this.initStage();
         this.initUpperLeftMask();
         this.initLowerRightMask();
         this.initUpperRightMask();
@@ -56,7 +55,7 @@ export default class Masks {
         mask.x = this.stagePadding + this.stageSize * 0.57579;
         mask.y = this.stagePadding;
         mask.anchor.set(0.5, 1);
-        mask.rotation = -0.842994;
+        mask.rotation = 0;
     }
     initLowerRightMask() {
         const mask = this.lowerRightMask;
@@ -64,7 +63,7 @@ export default class Masks {
         mask.x = this.stagePadding + this.stageSize * 0.33054;
         mask.y = this.stagePadding + this.stageSize;
         mask.anchor.set(0.5, 0);
-        mask.rotation = -0.78574723;
+        mask.rotation = 0;
     }
 
     initUpperRightMask() {
@@ -74,7 +73,7 @@ export default class Masks {
         mask.anchor.set(0, 1);
         mask.x = this.stagePadding + this.stageSize * 0.46076;
         mask.y = this.stagePadding + this.stageSize * 0.46901;
-        mask.skew.x = -0.24137904;
+        mask.skew.x = 0;
     }
     initLowerLeftMask() {
         const mask = this.lowerLeftMask;
@@ -83,6 +82,16 @@ export default class Masks {
         mask.anchor.set(1, 0);
         mask.x = this.stagePadding + this.stageSize * 0.4229177;
         mask.y = this.stagePadding + this.stageSize * 0.6233318;
-        mask.skew.x = -0.24137904;
+        mask.skew.x = 0;
+    }
+
+    update() {
+        if (!this.game.animationComplete) {
+            const p = this.game.animationProgress;
+            this.upperLeftMask.rotation = p * -0.842994;
+            this.lowerRightMask.rotation = p * -0.78574723;
+            this.upperRightMask.skew.x = p * -0.24137904;
+            this.lowerLeftMask.skew.x = p * -0.24137904;
+        }
     }
 }

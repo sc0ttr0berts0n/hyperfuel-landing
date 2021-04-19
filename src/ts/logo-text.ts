@@ -18,10 +18,10 @@ export default class LogoText {
 
         const stage = this.game.masks.stage;
         const stageSize = this.game.masks.stageSize;
-        this.el.x = stage.x + stageSize * 0.4919532;
-        this.el.y = stage.y + stageSize * 0.1874499;
+
+        this.el.x = this.game.masks.stagePadding + stageSize * 0.4919532;
+        this.el.y = this.game.masks.stagePadding + stageSize * 0.1874499;
         this.el.width = stageSize * 0.4855876;
         this.el.height = stageSize * 0.2636863;
-        this.el.texture.update();
     }
 }

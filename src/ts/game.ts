@@ -24,6 +24,10 @@ export default class Game {
     public mouseSpeed = 0;
     public mouseClicked = false;
     public scrollDepth = 0;
+    public animationProgress = 0;
+    private animationStart = 120;
+    private animationDuration = 30;
+    public animationComplete = false;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -60,7 +64,6 @@ export default class Game {
         } else {
             setTimeout(() => {
                 this.init();
-                console.log('loop');
             }, 200);
         }
     }
@@ -68,7 +71,9 @@ export default class Game {
     private update(delta: number) {
         if (!this.paused && this.graphics.spritesLoaded) {
             this.frameCount++;
+            this.animation();
             this.lines.update(delta);
+            this.masks.update();
         }
     }
     public reinit() {
@@ -91,5 +96,23 @@ export default class Game {
     }
     onScroll() {
         this.scrollDepth = window.scrollY;
+    }
+    animation() {
+        const animationEnd = this.animationStart + this.animationDuration;
+        if (
+            !this.animationComplete &&
+            this.frameCount > this.animationStart &&
+            this.frameCount <= animationEnd
+        ) {
+            const progress =
+                (this.frameCount - this.animationStart) /
+                this.animationDuration;
+
+            this.animationProgress = Math.min(1, progress);
+            if (progress >= 1) {
+                this.animationProgress = 1;
+                this.animationComplete = true;
+            }
+        }
     }
 }
