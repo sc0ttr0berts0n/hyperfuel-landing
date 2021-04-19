@@ -43,7 +43,7 @@ export default class Lines {
             this.game.scrollDepth / 25 + 10,
             this.pointGap.y
         );
-        const lineColor = this.game.mouseClicked ? 0xffffff : 0x282828;
+        const lineColor = this.game.mouseClicked ? 0xffffff : 0xffffff;
         const lineOpacity = 1;
         el.lineStyle(lineWidth, lineColor, lineOpacity);
 

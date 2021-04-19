@@ -3,6 +3,8 @@ import GraphicAssets from './graphic-assets';
 import AudioAssets from './audio-assets';
 import { Howl, Howler } from 'howler';
 import Lines from './lines';
+import LogoText from './logo-text';
+import Masks from './masks';
 import Victor = require('victor');
 
 export default class Game {
@@ -15,6 +17,8 @@ export default class Game {
     private paused: boolean = false;
     private muted: boolean = false;
     private lines: Lines;
+    public masks: Masks;
+    private logoText: LogoText;
     public mouse: Victor;
     public lastMouse: Victor;
     public mouseSpeed = 0;
@@ -36,24 +40,33 @@ export default class Game {
             this.app.renderer.height / 3
         );
         this.lastMouse = this.mouse.clone();
-        this.lines = new Lines(this);
         this.init();
     }
 
     private init() {
-        this.app.ticker.add((delta) => this.update(delta));
-        this.graphics.placeAssets();
-        document.addEventListener('mousemove', this.getMousePos.bind(this));
-        document.addEventListener('scroll', this.onScroll.bind(this));
-        document.addEventListener('mousedown', this.onClick.bind(this));
-        document.addEventListener('mouseup', this.onClick.bind(this));
-        document.addEventListener('touchstart', this.onClick.bind(this));
-        document.addEventListener('touchend', this.onClick.bind(this));
-        this.canvas.dataset.loaded = 'true';
+        if (this.graphics.spritesLoaded) {
+            this.lines = new Lines(this);
+            this.masks = new Masks(this);
+            this.logoText = new LogoText(this);
+            this.app.ticker.add((delta) => this.update(delta));
+            this.graphics.placeAssets();
+            document.addEventListener('mousemove', this.getMousePos.bind(this));
+            document.addEventListener('scroll', this.onScroll.bind(this));
+            document.addEventListener('mousedown', this.onClick.bind(this));
+            document.addEventListener('mouseup', this.onClick.bind(this));
+            document.addEventListener('touchstart', this.onClick.bind(this));
+            document.addEventListener('touchend', this.onClick.bind(this));
+            this.canvas.dataset.loaded = 'true';
+        } else {
+            setTimeout(() => {
+                this.init();
+                console.log('loop');
+            }, 200);
+        }
     }
 
     private update(delta: number) {
-        if (!this.paused) {
+        if (!this.paused && this.graphics.spritesLoaded) {
             this.frameCount++;
             this.lines.update(delta);
         }
