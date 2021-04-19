@@ -8,7 +8,7 @@ export default class Lines {
     private container = new PIXI.Container();
     private lineEl = new PIXI.Graphics();
     private purpleEl = new PIXI.Graphics();
-    private pointGap = new Victor(10, 35);
+    private pointGap = new Victor(10, 30);
 
     constructor(game: Game) {
         this.game = game;
@@ -52,7 +52,7 @@ export default class Lines {
         const width = this.game.app.renderer.width;
         const height = this.game.app.renderer.height;
         let x = 0;
-        let y = height / 2;
+        let y = height / 2 + this.pointGap.y / 2;
         const mouse = this.game.mouse;
         const maxAmplitude = this.pointGap.y * 2;
         const mouseYFloat = ((mouse.y - height / 2) / height) * 2;

@@ -9,9 +9,9 @@
         height: 100vw;
         max-height: 100vh;
         background-color: #282228;
-        transform: scale3d(1, 0, 1) skew(-90deg);
+        transform: scale3d(1.1, -2, 0) skew(-90deg);
         transform-origin: center;
-        background-image: linear-gradient(180deg, #f05323 50%, #f8ee55);
+        background-image: linear-gradient(180deg, #f05323 50%, #f8ee55 75%);
         outline: 64px solid white;
         &[data-loaded] {
             transform: scale3d(1, 1, 1);

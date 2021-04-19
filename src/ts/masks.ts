@@ -8,7 +8,7 @@ export default class Masks {
     public el = new PIXI.Graphics();
     public stageMaxSize: number;
     public stageSize: number;
-    public stagePaddingPercent = 0.05;
+    public stagePaddingPercent = 0.25;
     public stagePadding: number;
     public stage = new PIXI.Container();
     public upperLeftMask = new PIXI.Sprite(PIXI.Texture.WHITE);
